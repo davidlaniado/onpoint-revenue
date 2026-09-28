@@ -22,7 +22,7 @@ jobs:
       - run: npm install --no-audit --no-fund
       - run: npm run build
         env:
-          SITE_BASE: /onpoint-site
+          SITE_BASE: /onpoint-revenue
           SITE_URL: https://davidlaniado.github.io
       - uses: actions/upload-pages-artifact@v3
         with:

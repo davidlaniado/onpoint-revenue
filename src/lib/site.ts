@@ -2,9 +2,9 @@ export const SITE = {
   name: 'OnPoint Health Media & Tech',
   shortName: 'OnPoint',
   legalName: 'OnPoint Health Media and Tech, Inc.',
-  tagline: 'Take your telehealth brand to the next level.',
+  tagline: 'The revenue infrastructure layer for modern telehealth.',
   description:
-    'OnPoint is the growth platform for telehealth brands that are ready to scale. Exclusive partnerships, verified media partners, real-time tracking, and compliance built into every launch.',
+    'OnPoint helps cash-pay telehealth operators turn patient demand into recurring revenue: acquisition, conversion, checkout, payment continuity, retention, and lifetime value, run as one system.',
   url: 'https://www.onpointhealthmedia.com',
   email: 'david@onpointhealthmedia.com',
   careersEmail: 'david@onpointhealthmedia.com',
@@ -14,10 +14,10 @@ export const SITE = {
   linkedin: 'https://www.linkedin.com/company/onpoint-health-media',
   /** One-paragraph entity definition. Reuse verbatim everywhere (footer, about, llms.txt, press releases) so every crawler reads the same definition. */
   boilerplate:
-    'OnPoint Health Media & Tech is a verified performance network for telehealth, wellness, and diagnostics brands. OnPoint connects health brands with identity-verified media partners, runs server-side tracking and payouts through enterprise systems including Everflow and Google Tag Manager, and reviews ads and funnels for advertising standards before launch. Brands keep full ownership of their health claims. Categories include metabolic and weight management, hormone optimization, men’s wellness, dermatology, hair and skin, and at-home diagnostics. OnPoint is a marketing platform, not a medical provider.',
+    'OnPoint Health Media & Tech is the revenue infrastructure layer for modern telehealth. OnPoint helps cash-pay telehealth and health-commerce operators turn patient demand into recurring revenue by improving acquisition, conversion, checkout, payment continuity, retention, and lifetime value. The platform combines performance marketing and affiliate distribution, checkout and payment continuity, WowLoop revenue intelligence, and ZYVO member engagement. Operators keep ownership of their customer and payment relationships. Categories include GLP-1 and weight loss, TRT and men’s health, ED, women’s health, hair loss, longevity, metabolic health, and sleep. OnPoint is a marketing and revenue operations company, not a medical provider.',
   sameAs: ['https://www.linkedin.com/company/onpoint-health-media'],
   knowsAbout: [
-    'Telehealth affiliate marketing', 'GLP-1 patient acquisition', 'Testosterone replacement therapy marketing', 'Erectile dysfunction telehealth offers',
+    'Telehealth revenue operations', 'Payment continuity and failed-payment recovery', 'Subscription retention and rebill', 'Telehealth affiliate marketing', 'GLP-1 patient acquisition', 'Testosterone replacement therapy marketing', 'Erectile dysfunction telehealth offers',
     'Hair loss telehealth marketing', 'Women’s hormone health marketing', 'At-home diagnostics marketing', 'Server-to-server postback tracking',
     'Everflow', 'CPA and revenue share payouts', 'Health advertising compliance', 'Meta advertising for telehealth',
   ],
@@ -32,10 +32,10 @@ export function href(path: string): string {
 
 export const NAV = [
   { label: 'Home', path: '/' },
-  { label: 'For Brands', path: '/brands/' },
+  { label: 'Platform', path: '/platform/' },
+  { label: 'For Operators', path: '/brands/' },
   { label: 'For Partners', path: '/partners/' },
   { label: 'Compliance', path: '/compliance/' },
   { label: 'About', path: '/about/' },
   { label: 'Blog', path: '/blog/' },
-  { label: 'Careers', path: '/careers/' },
 ];

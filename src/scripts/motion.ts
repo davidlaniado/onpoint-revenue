@@ -93,6 +93,7 @@ document.querySelectorAll('[data-split]').forEach(splitWords);
 /* ---------- reveals ---------- */
 if (reduce) {
   gsap.set('.reveal, [data-split] .w > span, [data-hero]', { clearProps: 'all', opacity: 1, y: 0 });
+  document.querySelectorAll('.reveal').forEach((el) => el.classList.add('in'));
 } else {
   // hero load-in
   const heroWords = document.querySelectorAll('[data-hero-title] .w > span');
@@ -110,7 +111,7 @@ if (reduce) {
 
   ScrollTrigger.batch('.reveal', {
     start: 'top 88%', once: true,
-    onEnter: (batch) => gsap.to(batch, { opacity: 1, y: 0, duration: 0.9, stagger: 0.09, ease: 'power3.out', overwrite: true }),
+    onEnter: (batch) => { batch.forEach((el) => el.classList.add('in')); return gsap.to(batch, { opacity: 1, y: 0, duration: 0.9, stagger: 0.09, ease: 'power3.out', overwrite: true }); },
   });
 
   /* ---------- parallax ---------- */

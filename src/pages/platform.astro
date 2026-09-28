@@ -1,0 +1,102 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CTASimple from '../components/CTASimple.astro';
+
+const layers = [
+  ['Services', 'Performance marketing, affiliate growth, media buying, CRO, offer strategy, and partnership development.'],
+  ['Infrastructure', 'Checkout optimization, payment continuity, retention and membership systems, rebill and winback workflows.'],
+  ['Software', 'WowLoop: funnel analytics, revenue reporting, patient journey tracking, and operator dashboards.'],
+  ['Owned media', 'ZYVO, AI patient tools, condition communities, newsletters, quizzes, and email and SMS audiences.'],
+];
+const ai = ['Funnel diagnosis', 'Offer and creative testing', 'Quiz and intake optimization', 'Checkout messaging', 'Upsell and membership positioning', 'Retention and winback communication', 'Conversion analysis'];
+---
+<Base title="Platform" description="The OnPoint platform: performance execution, payment continuity, WowLoop revenue intelligence, and ZYVO member engagement in one operating layer for cash-pay telehealth.">
+  <PageHero kicker="The platform" title="One operating layer between demand and <span class='text-teal-ink'>recurring revenue.</span>" lead="OnPoint combines performance execution, checkout and payment continuity, WowLoop revenue intelligence, and ZYVO member engagement. Each layer makes the next one stronger." primary={['Book a revenue review', '/contact/?as=brand']} secondary={['See the three layers', '#layers']} pills={['OnPoint', 'WowLoop', 'ZYVO']} />
+
+  <!-- three layers -->
+  <section id="layers" class="container-x pt-20 md:pt-28 scroll-mt-24">
+    <div class="grid gap-5">
+      <div class="panel-navy reveal grid lg:grid-cols-[0.8fr_1.2fr] gap-8 items-start">
+        <div><p class="jtag" style="color:#60d8c8">Growth and revenue engine</p><h2 class="text-3xl md:text-4xl font-extrabold text-white mt-2">OnPoint brings patients in.</h2></div>
+        <ul class="checks checks-light">
+          <li>Affiliate distribution through founder-built partner relationships</li>
+          <li>Paid media across Meta, TikTok, search, native, email, and SMS</li>
+          <li>Funnel, quiz, intake, and checkout optimization</li>
+          <li>Payment continuity and failed-payment recovery, with your card vault in your hands</li>
+        </ul>
+      </div>
+      <div class="rounded-[28px] bg-paper p-8 md:p-11 reveal grid lg:grid-cols-[0.8fr_1.2fr] gap-8 items-start">
+        <div><p class="jtag">Intelligence layer</p><h2 class="text-3xl md:text-4xl font-extrabold mt-2">WowLoop finds the leaks.</h2><p class="text-slate mt-4 leading-relaxed">The goal is revenue intervention. Every fix becomes a playbook that repeats across the system.</p></div>
+        <div class="grid sm:grid-cols-2 gap-5">
+          <div class="rounded-[20px] bg-white border border-line p-6"><p class="font-bold text-navy">Live today</p><ul class="wave-list mt-3 text-[15px]"><li>Funnel and revenue reporting</li><li>Campaign performance visibility</li><li>Checkout and conversion analysis</li><li>Operator reporting</li></ul></div>
+          <div class="rounded-[20px] bg-white border border-line p-6"><p class="font-bold text-navy">On the roadmap</p><ul class="wave-list mt-3 text-[15px]"><li>AI-assisted optimization</li><li>Retention workflows</li><li>Membership and offer management</li><li>Patient engagement support</li></ul></div>
+        </div>
+      </div>
+      <div class="panel-mint reveal grid lg:grid-cols-[0.8fr_1.2fr] gap-8 items-start">
+        <div><p class="jtag">Member engagement layer</p><h2 class="text-3xl md:text-4xl font-extrabold mt-2">ZYVO keeps members engaged.</h2><p class="text-slate mt-4 leading-relaxed">The membership is the P&amp;L. ZYVO is where the member feels the membership.</p></div>
+        <ul class="checks">
+          <li>Daily check-ins and simple wellness tracking</li>
+          <li>Reminders that keep patients on plan</li>
+          <li>Trusted contacts and calm AI support</li>
+          <li>Engagement signals that feed rebill and retention workflows</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- four layers of value -->
+  <section class="container-x pt-20 md:pt-28">
+    <div class="max-w-3xl mx-auto text-center">
+      <p class="kicker">Four layers of value</p>
+      <h2 class="h2 mt-3">Services, infrastructure, software, and owned media.</h2>
+      <p class="lead mx-auto mt-4">Together they help operators acquire patients, lift conversion, protect recurring revenue, and grow lifetime value.</p>
+    </div>
+    <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      {layers.map(([t, d], i) => (
+        <div class="stage reveal"><span class="stage-n">0{i + 1}</span><h3 class="text-xl font-extrabold mt-3">{t}</h3><p class="mt-2 text-[15px] leading-relaxed stage-d">{d}</p></div>
+      ))}
+    </div>
+  </section>
+
+  <!-- three engines -->
+  <section class="mt-20 md:mt-28 bg-navy-deep text-white">
+    <div class="container-x py-16 md:py-24">
+      <div class="max-w-3xl">
+        <p class="kicker kicker-light">Three growth engines</p>
+        <h2 class="h2 text-white mt-3">Buy demand. Partner for demand. Build owned demand.</h2>
+      </div>
+      <div class="mt-10 grid md:grid-cols-3 gap-4">
+        {[
+          ['Partner distribution', 'Founder operator network, affiliate relationships, and strategic partnerships.'],
+          ['Paid acquisition', 'Performance marketing, funnel testing, and conversion improvement.'],
+          ['Owned health audiences', 'ZYVO, apps, communities, and content that lower acquisition cost over time.'],
+        ].map(([t, d], i) => (
+          <div class="dark-tile reveal"><span class="leak-n">{i + 1}</span><h3 class="text-xl font-bold text-white mt-4">{t}</h3><p class="text-white/70 mt-2 text-[15px] leading-relaxed">{d}</p></div>
+        ))}
+      </div>
+      <p class="text-white/60 mt-8">Patient demand → conversion → recurring revenue → lifetime value.</p>
+    </div>
+  </section>
+
+  <!-- applied AI -->
+  <section class="container-x pt-20 md:pt-28">
+    <div class="grid lg:grid-cols-[0.9fr_1.1fr] gap-10 items-center">
+      <div>
+        <p class="kicker">Applied AI</p>
+        <h2 class="h2 mt-3">AI pointed at revenue performance.</h2>
+        <p class="lead mt-4">The goal is higher conversion, stronger retention, and greater lifetime value. Every model we run is tied to a number on the P&amp;L.</p>
+      </div>
+      <ul class="flex flex-wrap gap-2.5">
+        {ai.map((t) => <li class="pill-outline hero-pill">{t}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <CTASimple />
+</Base>
+
+<style>
+  .hero-pill { border-color: var(--color-teal-line); color: var(--color-navy); background: var(--color-teal-soft); font-size: 15px; padding: 10px 16px; }
+  .hero-pill::before { background: var(--color-teal-ink); }
+</style>

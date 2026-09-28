@@ -4,6 +4,7 @@
 @import "./viz.css";
 @import "./viz-dark.css";
 @import "./home.css";
+@import "./revenue.css";
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;

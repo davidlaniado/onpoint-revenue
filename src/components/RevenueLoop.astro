@@ -1,0 +1,107 @@
+---
+// Hero visual: patient demand flows in, runs the Acquire → Convert → Pay → Retain → Scale loop around the
+// OnPoint core, and every renewal runs the loop again. Pure SVG + SMIL/CSS, no libraries.
+const cx = 262, cy = 250, r = 160;
+const stages = ['Acquire', 'Convert', 'Pay', 'Retain', 'Scale'];
+const nodes = stages.map((label, i) => {
+  const a = ((180 + i * 72) * Math.PI) / 180;
+  return { label, x: +(cx + r * Math.cos(a)).toFixed(1), y: +(cy + r * Math.sin(a)).toFixed(1), i };
+});
+const loop = `M${cx - r} ${cy} A${r} ${r} 0 1 1 ${cx + r} ${cy} A${r} ${r} 0 1 1 ${cx - r} ${cy}`;
+const inflow = [
+  `M0 150 C50 150 60 ${cy} ${cx - r - 34} ${cy}`,
+  `M0 ${cy} L${cx - r - 34} ${cy}`,
+  `M0 350 C50 350 60 ${cy} ${cx - r - 34} ${cy}`,
+];
+const T = 7.5; // seconds per lap
+---
+<div class="rl-wrap" data-rl>
+  <div class="rl-glow" aria-hidden="true"></div>
+  <svg class="rl" viewBox="0 0 540 500" role="img" aria-label="Patient demand flows into OnPoint and runs a loop: acquire, convert, pay, retain, scale. Every renewal runs the loop again.">
+    <defs>
+      <radialGradient id="rlCore" cx="50%" cy="40%" r="65%"><stop offset="0%" stop-color="#23397a"/><stop offset="100%" stop-color="#0f1b3d"/></radialGradient>
+      <filter id="rlBlur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter>
+    </defs>
+
+    <!-- demand streaming in -->
+    <text x="4" y="120" class="rl-cap">Patient demand</text>
+    {inflow.map((d, k) => (
+      <g>
+        <path d={d} class="rl-in" />
+        {[0, 1, 2].map((j) => (
+          <circle r="4.5" class="rl-in-dot">
+            <animateMotion dur="2.4s" repeatCount="indefinite" begin={`${(k * 0.35 + j * 0.8).toFixed(2)}s`} path={d} />
+          </circle>
+        ))}
+      </g>
+    ))}
+
+    <!-- the loop -->
+    <circle cx={cx} cy={cy} r={r} class="rl-ring" />
+    <circle cx={cx} cy={cy} r={r} class="rl-ring-flow" />
+    <circle cx={cx} cy={cy} r={r - 58} class="rl-ring-inner" />
+
+    <!-- core -->
+    <circle cx={cx} cy={cy} r="80" fill="url(#rlCore)" class="rl-core" />
+    <text x={cx} y={cy - 4} text-anchor="middle" class="rl-core-t">OnPoint</text>
+    <text x={cx} y={cy + 20} text-anchor="middle" class="rl-core-s">Revenue system</text>
+
+    <!-- travelling revenue dot -->
+    <circle r="11" class="rl-dot-glow" filter="url(#rlBlur)"><animateMotion dur={`${T}s`} repeatCount="indefinite" path={loop} /></circle>
+    <circle r="6.5" class="rl-dot"><animateMotion dur={`${T}s`} repeatCount="indefinite" path={loop} /></circle>
+
+    <!-- stages -->
+    {nodes.map((n) => (
+      <g class="rl-node" style={`--d:${(n.i * T / 5).toFixed(2)}s;--T:${T}s`}>
+        <circle cx={n.x} cy={n.y} r="38" class="rl-node-bg" />
+        <text x={n.x} y={n.y + 5} text-anchor="middle" class="rl-node-t">{n.label}</text>
+      </g>
+    ))}
+
+    <!-- renewal tag -->
+    <g class="rl-renew" style={`--T:${T}s`}>
+      <rect x="360" y="440" width="170" height="36" rx="18" class="rl-renew-bg" />
+      <text x="445" y="463" text-anchor="middle" class="rl-renew-t">Renewal · runs again</text>
+    </g>
+  </svg>
+</div>
+
+<style>
+  .rl-wrap { position: relative; width: 100%; max-width: 560px; margin-inline: auto; aspect-ratio: 540 / 500; }
+  .rl-glow { position: absolute; inset: 14% 10% 10% 22%; border-radius: 50%; background: radial-gradient(circle, rgba(96,216,200,.35) 0%, rgba(56,144,176,.12) 45%, transparent 70%); filter: blur(28px); pointer-events: none; }
+  .rl { position: relative; width: 100%; height: 100%; display: block; overflow: visible; }
+  .rl-cap { font: 600 15px var(--font-sans); fill: var(--color-slate); }
+  .rl-in { fill: none; stroke: rgba(24,40,88,.14); stroke-width: 1.5; stroke-dasharray: 3 6; }
+  .rl-in-dot { fill: var(--color-teal-ink); opacity: .75; }
+  .rl-ring { fill: none; stroke: rgba(24,40,88,.12); stroke-width: 14; }
+  .rl-ring-flow { fill: none; stroke: var(--color-teal); stroke-width: 2.5; stroke-dasharray: 10 14; stroke-linecap: round; animation: rlFlow 3s linear infinite; }
+  .rl-ring-inner { fill: none; stroke: rgba(24,40,88,.1); stroke-width: 1; stroke-dasharray: 2 6; transform-origin: 262px 250px; animation: rlSpin 40s linear infinite; }
+  .rl-core { filter: drop-shadow(0 18px 30px rgba(15,27,61,.35)); }
+  .rl-core-t { font: 800 24px var(--font-display); fill: #fff; letter-spacing: -.02em; }
+  .rl-core-s { font: 600 13px var(--font-sans); fill: var(--color-teal); }
+  .rl-dot { fill: var(--color-teal); }
+  .rl-dot-glow { fill: var(--color-teal); opacity: .8; }
+  .rl-node-bg { fill: #fff; stroke: var(--color-teal-line); stroke-width: 2; filter: drop-shadow(0 8px 16px rgba(24,40,88,.12)); transition: fill .3s; }
+  .rl-node-t { font: 700 16px var(--font-sans); fill: var(--color-navy); }
+  .rl-node .rl-node-bg { animation: rlHit var(--T) linear infinite; animation-delay: var(--d); }
+  .rl-node .rl-node-t { animation: rlHitT var(--T) linear infinite; animation-delay: var(--d); }
+  .rl-renew { animation: rlRenew var(--T) ease-in-out infinite; }
+  .rl-renew-bg { fill: var(--color-teal-soft); stroke: var(--color-teal-line); }
+  .rl-renew-t { font: 700 13px var(--font-sans); fill: var(--color-teal-ink); }
+  @keyframes rlFlow { to { stroke-dashoffset: -48; } }
+  @keyframes rlSpin { to { transform: rotate(360deg); } }
+  @keyframes rlHit { 0%, 9% { fill: var(--color-navy); stroke: var(--color-navy); } 16%, 100% { fill: #fff; stroke: var(--color-teal-line); } }
+  @keyframes rlHitT { 0%, 9% { fill: #fff; } 16%, 100% { fill: var(--color-navy); } }
+  @keyframes rlRenew { 0%, 100% { opacity: 1; transform: translateY(0); } 8% { opacity: 1; transform: translateY(-4px); } 30%, 85% { opacity: .55; transform: translateY(0); } }
+  @media (prefers-reduced-motion: reduce) {
+    .rl-ring-flow, .rl-ring-inner, .rl-node .rl-node-bg, .rl-node .rl-node-t, .rl-renew { animation: none; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-rl]').forEach((wrap) => {
+    const svg = wrap.querySelector('svg') as SVGSVGElement | null;
+    if (!svg) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) svg.pauseAnimations();
+  });
+</script>

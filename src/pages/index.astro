@@ -2,215 +2,280 @@
 import Base from '../layouts/Base.astro';
 import ContactForm from '../components/ContactForm.astro';
 import FAQ from '../components/FAQ.astro';
-import PeptideHero from '../components/PeptideHero.astro';
-import PeptideStrand from '../components/PeptideStrand.astro';
+import RevenueLoop from '../components/RevenueLoop.astro';
 import { href, SITE } from '../lib/site';
 
 const faq = [
-  { q: 'What is OnPoint?', a: 'The growth platform for telehealth brands that are ready to scale. We bring exclusive partnerships and verified media partners, run real-time tracking and payouts between both sides, and build compliance into every launch.' },
-  { q: 'Is OnPoint a fit for a brand that is just starting out?', a: 'OnPoint works best once a program already converts, usually past $1M a month. If you are building your first funnel, an agency is a great first step, and we are happy to point you to one. When you are ready to scale, that is where we come in.' },
-  { q: 'Who owns the health claims?', a: 'The brand. OnPoint reviews creative against your approved claim set for advertising standards. The claims stay yours, in your words.' },
-  { q: 'What do media partners get?', a: 'Exclusive telehealth offers from brands with the capital to scale, plus reliable tracking, clear claim rules, and payouts on approved performance.' },
-  { q: 'How are partners paid?', a: 'On approved performance under terms agreed before launch: CPA, revenue share, or hybrid depending on the offer. Reversals show up with a reason.' },
+  { q: 'What is OnPoint?', a: 'The revenue infrastructure layer for modern telehealth. We help cash-pay operators turn patient demand into recurring revenue by working every step from the first click through every renewal: acquisition, conversion, checkout, payments, retention, and lifetime value.' },
+  { q: 'Who is OnPoint built for?', a: 'Growth-stage cash-pay telehealth and wellness operators, usually doing $10M to $150M a year, with a subscription or membership model and meaningful acquisition spend.' },
+  { q: 'Who owns the customer and payment relationship?', a: 'You do. Your customers, your card vault, and your membership data stay with your business. OnPoint builds and runs the system around them so the value compounds on your books.' },
+  { q: 'How does OnPoint get paid?', a: 'A hybrid model that starts with service and performance economics and moves toward revenue share and platform fees as results compound. Billing scales with outcomes.' },
+  { q: 'Does OnPoint touch patient health data?', a: 'Protected health information stays with you and your providers. OnPoint works with the marketing, checkout, and payment signals the revenue system needs, under agreements built for healthcare.' },
 ];
 const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
 
-const categories = [
-  ['Weight management', '<path d="M4 20h16"/><path d="M6 20V9a6 6 0 0112 0v11"/><path d="M9 20v-6h6v6"/>'],
-  ['Hormones and TRT', '<circle cx="9" cy="14" r="5"/><path d="M12.5 10.5L20 3"/><path d="M15 3h5v5"/>'],
-  ['Sexual health', '<path d="M12 20s-7-4.5-7-10a4 4 0 017-2.5A4 4 0 0119 10c0 5.5-7 10-7 10z"/>'],
-  ['Hair and skin', '<path d="M4 14c2-6 6-9 8-9s6 3 8 9"/><path d="M6 14v6M10 12v8M14 12v8M18 14v6"/>'],
+const stages = [
+  ['Acquire', 'Affiliate distribution, paid media, and owned health audiences. Patients that fit your economics.', 'M4 12h10M10 6l6 6-6 6M20 4v16'],
+  ['Convert', 'Funnels, quizzes, intake flows, and offer positioning, tested and tuned on real sales data.', 'M4 5h16l-6 7v6l-4 2v-8L4 5z'],
+  ['Pay', 'Checkout optimization, payment continuity, and failed-payment recovery.', 'M3 6h18v12H3zM3 10h18M7 15h4'],
+  ['Retain', 'Rebill, winback, and member engagement that keep patients on plan.', 'M4 12a8 8 0 0114-5.3M20 4v5h-5M20 12a8 8 0 01-14 5.3M4 20v-5h5'],
+  ['Scale', 'Memberships, cross-sell, and new programs built on the relationship you already own.', 'M4 20h16M7 16v-4M12 16V8M17 16V5'],
+];
+
+const proof = [
+  ['Landing-page conversion', 1.5, 3.3, '%'],
+  ['Checkout approval', 73, 89, '%'],
+  ['First-rebill success', 64, 83, '%'],
+  ['Month-2+ retention', 39, 62, '%'],
+];
+
+const verticals = [
+  ['GLP-1 and weight loss', '<path d="M4 20h16"/><path d="M6 20V9a6 6 0 0112 0v11"/><path d="M9 20v-6h6v6"/>'],
+  ["TRT and men's health", '<circle cx="9" cy="14" r="5"/><path d="M12.5 10.5L20 3"/><path d="M15 3h5v5"/>'],
+  ['ED', '<path d="M12 20s-7-4.5-7-10a4 4 0 017-2.5A4 4 0 0119 10c0 5.5-7 10-7 10z"/>'],
   ["Women's health", '<circle cx="12" cy="9" r="5"/><path d="M12 14v7M9 18h6"/>'],
-  ['Diagnostics and labs', '<path d="M9 3h6M10 3v6l-5 9a2 2 0 002 3h10a2 2 0 002-3l-5-9V3"/>'],
-  ['Peptides and longevity', '<circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>'],
-  ['Sleep and mental health', '<path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/>'],
-  ['Supplements', '<rect x="4" y="7" width="16" height="10" rx="5" transform="rotate(-30 12 12)"/><path d="M8.5 15.5l7-7"/>'],
-  ['Preventive care', '<path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/>'],
+  ['Hair loss', '<path d="M4 14c2-6 6-9 8-9s6 3 8 9"/><path d="M6 14v6M10 12v8M14 12v8M18 14v6"/>'],
+  ['Longevity', '<circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>'],
+  ['Metabolic health', '<path d="M3 12h4l3-7 4 14 3-7h4"/>'],
+  ['Sleep', '<path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/>'],
 ];
 ---
-<Base title="OnPoint Health Media & Tech | The growth platform for telehealth brands" description={SITE.description} jsonLd={faqLd}>
+<Base title="OnPoint | The revenue infrastructure layer for modern telehealth" description={SITE.description} jsonLd={faqLd}>
 
   <!-- HERO -->
   <section class="hero-light">
-    <div class="container-x py-10 md:py-20 grid lg:grid-cols-[1fr_1fr] gap-6 lg:gap-14 items-center hero-grid">
+    <div class="container-x py-10 md:py-16 grid lg:grid-cols-[1.05fr_0.95fr] gap-8 lg:gap-12 items-center hero-grid-rev">
       <div>
-        <p class="text-teal-ink font-bold text-base md:text-lg" data-hero style="opacity:0;transform:translateY(16px)">OnPoint · The growth platform for telehealth brands</p>
-        <h1 class="mt-4 text-navy text-[38px] leading-[1.05] sm:text-[50px] lg:text-[60px] font-extrabold tracking-[-0.02em]" data-hero style="opacity:0;transform:translateY(16px)">Take your telehealth brand to the <span class="text-teal-ink">next level.</span></h1>
-        <p class="mt-6 text-lg md:text-xl text-slate max-w-xl leading-relaxed" data-hero style="opacity:0;transform:translateY(16px)">OnPoint is the growth platform for telehealth brands doing $1M+ a month. Exclusive partnerships and verified media partners bring the scale, real-time reporting shows you every sale, and compliance is built into every launch. You keep the brand, the claims, and the numbers.</p>
+        <p class="text-teal-ink font-bold text-base md:text-lg" data-hero style="opacity:0;transform:translateY(16px)">OnPoint · Revenue infrastructure for modern telehealth</p>
+        <h1 class="mt-4 text-navy text-[40px] leading-[1.04] sm:text-[52px] lg:text-[62px] font-extrabold tracking-[-0.025em]" data-hero style="opacity:0;transform:translateY(16px)">Turn patient demand into <span class="text-teal-ink">recurring revenue.</span></h1>
+        <p class="mt-6 text-lg md:text-xl text-slate max-w-xl leading-relaxed" data-hero style="opacity:0;transform:translateY(16px)">OnPoint runs the revenue side of cash-pay telehealth. We work every step from the first click through every renewal: acquisition, conversion, checkout, payments, retention, and lifetime value.</p>
         <div class="mt-8 flex flex-col sm:flex-row gap-3" data-hero style="opacity:0;transform:translateY(16px)">
-          <a href={href('/brands/')} class="btn btn-primary">I have a brand</a>
-          <a href={href('/partners/')} class="btn btn-ghost">I run traffic</a>
+          <a href="#contact" class="btn btn-primary">Book a revenue review</a>
+          <a href="#how" class="btn btn-ghost">See how it works</a>
         </div>
         <ul class="mt-7 flex flex-wrap gap-2" data-hero style="opacity:0;transform:translateY(16px)">
-          {['Exclusive partnerships', 'Verified media partners', 'Compliance built in'].map((t) => <li class="pill-outline">{t}</li>)}
+          {['Acquire', 'Convert', 'Pay', 'Retain', 'Scale'].map((t) => <li class="pill-outline">{t}</li>)}
         </ul>
       </div>
-      <PeptideHero />
+      <div data-hero style="opacity:0;transform:translateY(16px)"><RevenueLoop /></div>
     </div>
   </section>
 
-  <!-- STAT BAND -->
+  <!-- FOUNDER PROOF BAND -->
   <section class="container-x -mt-8 md:-mt-10 relative z-10">
     <div class="stat-band reveal">
-      <p class="stat-title">The growth platform built by operators</p>
+      <p class="stat-title">Built by operators who have done it before</p>
       <div class="stat-grid">
-        {[['$9B+', 'in sales driven by the operators behind OnPoint'], ['$1M+', 'monthly revenue is where a brand should be before it joins'], ['10', 'regulated health categories live'], ['24h', 'to a real reply from a real person']].map(([n, l]) => (
+        {[
+          ['$5B+', 'in consumer revenue scaled by our co-founder at DFO Performance'],
+          ['$1B+', 'in payment volume on our CEO’s PCI Level 1 payments platform'],
+          ['30+', 'years across ecommerce, payments, and performance marketing'],
+          ['$1M+', 'of the founders’ own capital invested in OnPoint'],
+        ].map(([n, l]) => (
           <div><p class="stat-n">{n}</p><p class="stat-l">{l}</p></div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- PRESS -->
-  <section class="container-x pt-14 md:pt-20 text-center">
-    <p class="text-sm font-semibold text-mist">Brands we work with have been featured in</p>
-    <div class="press mt-5"><span>Forbes</span><span class="sans">Inc.</span><span class="sans">BUSINESS INSIDER</span><span>Men's Health</span><span class="sans">TechCrunch</span><span>Fast Company</span></div>
+  <!-- THE SHIFT -->
+  <section class="container-x pt-20 md:pt-28">
+    <div class="max-w-3xl">
+      <p class="kicker">The shift</p>
+      <h2 class="h2 mt-3">The margin is moving from the molecule to the membership.</h2>
+      <p class="lead mt-4">Telehealth solved access. The next winners will have the strongest revenue system behind the product: patients acquired profitably, payments protected, and members kept longer.</p>
+    </div>
+    <div class="mt-10 grid md:grid-cols-2 gap-5">
+      <div class="wave-card reveal">
+        <p class="jtag">First wave</p>
+        <h3 class="text-2xl font-extrabold mt-2">Access</h3>
+        <ul class="wave-list mt-5"><li>Convenience</li><li>Product launches</li><li>Paid traffic as the growth engine</li></ul>
+      </div>
+      <div class="wave-card is-next reveal">
+        <p class="jtag">Next wave</p>
+        <h3 class="text-2xl font-extrabold mt-2">Revenue infrastructure</h3>
+        <ul class="wave-list mt-5"><li>Acquire patients profitably</li><li>Convert demand into paid care</li><li>Protect recurring revenue and recover failed payments</li><li>Retain patients longer and grow lifetime value</li></ul>
+      </div>
+    </div>
   </section>
 
-  <PeptideStrand class="mt-10 md:mt-16" />
+  <!-- WHERE REVENUE LEAKS (dark) -->
+  <section class="mt-20 md:mt-28 bg-navy-deep text-white">
+    <div class="container-x py-16 md:py-24">
+      <div class="grid lg:grid-cols-[1fr_1fr] gap-10 lg:gap-16 items-center">
+        <div>
+          <p class="kicker kicker-light">Where the money leaks</p>
+          <h2 class="h2 text-white mt-3">Most operators pour traffic into a leaking system.</h2>
+          <p class="text-white/75 text-lg mt-4 leading-relaxed">Buy traffic. Acquire a patient. Lose them. Buy more traffic. As costs rise and products look alike, that treadmill gets more expensive every month.</p>
+          <p class="moat mt-8">The product is no longer the moat.<br /><span>The patient revenue system is.</span></p>
+        </div>
+        <ul class="leak-grid">
+          {[
+            ['Funnel economics', 'Traffic that costs more than it earns'],
+            ['Checkout conversion', 'Patients who drop at the payment step'],
+            ['Failed payments', 'Declines that never get recovered'],
+            ['First-rebill success', 'Month one sold, month two lost'],
+            ['Retention and LTV', 'Members who drift away quietly'],
+          ].map(([t, d], i) => (
+            <li class="leak reveal"><span class="leak-n">{String(i + 1).padStart(2, '0')}</span><div><p class="font-bold text-white">{t}</p><p class="text-white/65 text-[15px] mt-0.5">{d}</p></div></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
 
-  <!-- JOURNEY -->
-  <section class="container-x pt-10 md:pt-16">
+  <!-- ACQUIRE CONVERT PAY RETAIN SCALE -->
+  <section id="how" class="container-x pt-20 md:pt-28 scroll-mt-24">
     <div class="max-w-3xl mx-auto text-center">
-      <p class="kicker">Where you are decides who you need</p>
-      <h2 class="h2 mt-3">Agencies get you started. OnPoint takes you to $100M.</h2>
-      <p class="lead mx-auto mt-4">Different jobs, and both matter. An agency builds the flows and gets the first campaigns live. Once your program converts, OnPoint multiplies it through dozens of verified partners and exclusive placements.</p>
+      <p class="kicker">How it works</p>
+      <h2 class="h2 mt-3">One operating layer, from click to renewal.</h2>
+      <p class="lead mx-auto mt-4">Most vendors fix one piece. OnPoint connects the whole system, so every lift stacks on the next.</p>
     </div>
-    <div class="journey mt-12">
-      <div class="jcard reveal">
-        <p class="jtag">Starting out · $0 to $1M</p>
-        <h3 class="text-2xl font-extrabold">Build with an agency.</h3>
-        <div>
-          <div class="jviz"><svg viewBox="0 0 300 120"><rect class="jblock" x="40" y="70" width="60" height="30" rx="6"/><rect class="jblock" x="110" y="55" width="60" height="45" rx="6"/><rect class="jblock" x="180" y="40" width="60" height="60" rx="6"/><rect class="jblock" x="120" y="20" width="40" height="22" rx="5"/></svg></div>
-          <ul class="jcheck mt-4"><li>Builds your funnel, intake, and first campaigns</li><li>One team, hands on, close to the product</li><li>The right first step for a new brand</li></ul>
-        </div>
-        <p class="jverdict">Get the program converting.</p>
-      </div>
-      <div class="jcard is-us reveal">
-        <p class="jtag">Ready to scale · $1M to $100M</p>
-        <h3 class="text-2xl font-extrabold">Scale with OnPoint.</h3>
-        <div>
-          <div class="jviz"><svg viewBox="0 0 300 120">
-            <path class="jl jflow" d="M10 30 H120"/><path class="jl jflow" d="M10 60 H120"/><path class="jl jflow" d="M10 90 H120"/>
-            <rect class="jgate" x="120" y="18" width="60" height="84" rx="12"/><path d="M137 60l9 9 17-19" fill="none" stroke="#60d8c8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-            <path class="jl jflow" d="M180 60 H290"/><circle class="jdot" cx="230" cy="60" r="6"/><circle class="jdot" cx="262" cy="60" r="6"/>
-            <circle class="jdot" cx="40" cy="30" r="5"/><circle class="jdot" cx="70" cy="60" r="5"/><circle class="jdot" cx="55" cy="90" r="5"/>
-          </svg></div>
-          <ul class="jcheck mt-4"><li>Dozens of verified partners and exclusive placements</li><li>Media, creative, and funnel expertise behind every launch</li><li>Real-time reporting and compliance built in</li></ul>
-        </div>
-        <p class="jverdict">Multiply what already works.</p>
-      </div>
-      <div class="jcard reveal">
-        <p class="jtag">Curated, by design</p>
-        <h3 class="text-2xl font-extrabold">Invited partners, exclusive offers.</h3>
-        <div>
-          <div class="jviz"><svg viewBox="0 0 300 120">
-            <path class="jl jflow" d="M10 30 H120"/><path class="jl jflow" d="M10 60 H120"/><path class="jl jflow" d="M10 90 H120"/>
-            <rect class="jgate" x="120" y="18" width="60" height="84" rx="12"/><path d="M137 60l9 9 17-19" fill="none" stroke="#14867a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-            <path class="jl jflow" d="M180 60 H290"/><circle class="jdot" cx="230" cy="60" r="6"/><circle class="jdot" cx="262" cy="60" r="6"/>
-            <circle class="jdot" cx="40" cy="30" r="5"/><circle class="jdot" cx="70" cy="60" r="5"/><circle class="jdot" cx="55" cy="90" r="5"/>
-          </svg></div>
-          <ul class="jcheck mt-4"><li>Partners are invited and verified before they see an offer</li><li>Offers are exclusive to the platform</li><li>Every side sees the same numbers</li></ul>
-        </div>
-        <p class="jverdict">Quality partners, on purpose.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- TWO SIDES -->
-  <section class="container-x pt-20 md:pt-28">
-    <p class="kicker">Two sides, one standard</p>
-    <h2 class="h2 mt-3 max-w-3xl">Built for brands that are ready. Built for partners who want exclusive offers.</h2>
-    <div class="mt-10 grid lg:grid-cols-2 gap-5">
-      <div class="panel-mint reveal">
-        <p class="jtag">For brands</p>
-        <h3 class="text-2xl font-extrabold mt-2">Scale through partners, fully in control.</h3>
-        <ul class="checks mt-6">
-          <li>You own and approve every health claim</li>
-          <li>Verified partners, on the channels you choose</li>
-          <li>Media buying, creative, funnel optimization, and tracking tech behind every launch</li>
-          <li>Attribution and payments visible end to end</li>
-        </ul>
-        <a href={href('/brands/')} class="btn btn-primary mt-8">How it works for brands</a>
-      </div>
-      <div class="panel-navy reveal">
-        <p class="jtag" style="color:#60d8c8">For media partners</p>
-        <h3 class="text-2xl font-extrabold text-white mt-2">Exclusive offers. Traffic sources you can own.</h3>
-        <ul class="checks checks-light mt-6">
-          <li>Telehealth offers exclusive to OnPoint partners</li>
-          <li>Brands with the capital to scale, so caps grow with you</li>
-          <li>Partners here run six-figure days in revenue on a single channel</li>
-          <li>Reliable tracking, clear claim rules, paid on approved performance</li>
-        </ul>
-        <a href={href('/partners/')} class="btn btn-teal mt-8">How it works for partners</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- COMPLIANCE, BUILT IN -->
-  <section class="container-x pt-20 md:pt-28">
-    <div class="rounded-[28px] bg-paper p-8 md:p-12 grid lg:grid-cols-[1.1fr_0.9fr] gap-10 items-center reveal">
-      <div>
-        <p class="kicker">Compliance, built in</p>
-        <h2 class="h2 mt-3">Telehealth is regulated. We build for that.</h2>
-        <p class="lead mt-4">Brands own their claims. Partners are verified before they see an offer. Every ad is reviewed before it runs, and every sale is tracked in real time. It runs quietly in the background so you can focus on growth.</p>
-        <a href={href('/compliance/')} class="btn btn-primary mt-7">How compliance works at OnPoint</a>
-      </div>
-      <ul class="grid sm:grid-cols-2 gap-4">
-        {[['Claims', 'Yours, in your words, on every ad'], ['Partners', 'Identity and traffic source verified'], ['Creative', 'Reviewed before it runs'], ['Tracking', 'Real time, one number for both sides']].map(([t, d]) => (
-          <li class="rounded-[20px] bg-white border border-line p-5"><p class="font-bold text-navy">{t}</p><p class="mt-1 text-[15px] text-slate">{d}</p></li>
-        ))}
-      </ul>
-    </div>
-  </section>
-
-  <!-- CATEGORIES -->
-  <section class="container-x pt-20 md:pt-28 text-center">
-    <p class="kicker">Where we work</p>
-    <h2 class="h2 mt-3 max-w-3xl mx-auto">Every regulated health category.</h2>
-    <p class="lead mx-auto mt-4">If a licensed provider prescribes it or a lab tests it, we run it.</p>
-    <div class="mt-10 grid grid-cols-2 sm:grid-cols-5 gap-5 md:gap-6 max-w-5xl mx-auto">
-      {categories.map(([name, icon]) => (
-        <div class="flex flex-col items-center gap-3 reveal">
-          <span class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={icon} /></span>
-          <span class="text-[15px] font-semibold text-navy leading-tight text-center">{name}</span>
+    <div class="stage-grid mt-12">
+      {stages.map(([t, d, icon], i) => (
+        <div class:list={['stage reveal', t === 'Pay' && 'is-key']}>
+          <div class="flex items-center justify-between">
+            <span class="stage-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d={icon} /></svg></span>
+            <span class="stage-n">{i + 1}</span>
+          </div>
+          <h3 class="text-xl font-extrabold mt-5">{t}</h3>
+          <p class="mt-2 text-[15px] leading-relaxed stage-d">{d}</p>
+          {t === 'Pay' && <p class="vault mt-4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>Your card vault stays yours.</p>}
         </div>
       ))}
     </div>
+    <div class="vault-band mt-6 reveal">
+      <div>
+        <p class="jtag">Own the relationship</p>
+        <h3 class="text-2xl md:text-[28px] font-extrabold mt-2">Your customers. Your card vault. Your membership.</h3>
+      </div>
+      <p class="text-slate text-[16px] leading-relaxed">Saved cards and payment relationships stay with your business. We build the checkout, continuity, and membership architecture around them, so every renewal and every cross-sell adds value you own.</p>
+    </div>
   </section>
 
-  <PeptideStrand class="mt-16 md:mt-24" />
+  <!-- EARLY RESULTS -->
+  <section class="container-x pt-20 md:pt-28">
+    <div class="grid lg:grid-cols-[0.85fr_1.15fr] gap-10 lg:gap-14 items-center">
+      <div>
+        <p class="kicker">Early results</p>
+        <h2 class="h2 mt-3">What happens when the levers move together.</h2>
+        <p class="lead mt-4">Conversion, checkout, and retention stack on each other. Lift all three and revenue per visitor grows several times over.</p>
+        <p class="text-sm text-mist mt-6">Early work with a current client. Results vary by operator.</p>
+      </div>
+      <div class="proof reveal">
+        <div class="proof-legend"><span class="lg-before">Before</span><span class="lg-after">With OnPoint</span></div>
+        {proof.map(([label, a, b, u]) => {
+          const max = label === 'Landing-page conversion' ? 4 : 100;
+          return (
+            <div class="proof-row">
+              <p class="proof-label">{label}</p>
+              <div class="proof-bars">
+                <div class="bar bar-before" style={`--w:${((a as number) / max) * 100}%`}><span>{a}{u}</span></div>
+                <div class="bar bar-after" style={`--w:${((b as number) / max) * 100}%`}><span>{b}{u}</span></div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
 
-  <!-- STEPS -->
-  <section class="container-x pt-10 md:pt-16 text-center">
-    <h2 class="h2">Live in four steps.</h2>
+  <!-- ECOSYSTEM -->
+  <section class="container-x pt-20 md:pt-28">
+    <div class="max-w-3xl mx-auto text-center">
+      <p class="kicker">The platform</p>
+      <h2 class="h2 mt-3">One platform. Three layers working together.</h2>
+    </div>
+    <div class="mt-10 grid md:grid-cols-3 gap-5">
+      {[
+        ['OnPoint', 'Brings patients in', 'Performance marketing, affiliate distribution, CRO, checkout, and payment continuity.', 'is-navy'],
+        ['WowLoop', 'Finds the leaks', 'Funnel and revenue reporting, checkout analysis, and playbooks that turn every fix into a repeatable system.', ''],
+        ['ZYVO', 'Keeps members engaged', 'Daily check-ins, reminders, and wellness tracking. A monthly subscription becomes a daily relationship.', ''],
+      ].map(([n, t, d, c]) => (
+        <div class:list={['eco reveal', c]}>
+          <p class="eco-name">{n}</p>
+          <h3 class="text-xl font-extrabold mt-3">{t}</h3>
+          <p class="mt-2 text-[15px] leading-relaxed eco-d">{d}</p>
+        </div>
+      ))}
+    </div>
+    <p class="text-center mt-6"><a href={href('/platform/')} class="link-arrow">See the full platform</a></p>
+  </section>
+
+  <!-- HOW WE PARTNER -->
+  <section class="container-x pt-20 md:pt-28 text-center">
+    <p class="kicker">How we partner</p>
+    <h2 class="h2 mt-3">Start with revenue. Grow into infrastructure.</h2>
     <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-6">
       {[
-        ['Apply', 'Brands: business and compliance review. Partners: identity, KYC, and traffic source.'],
-        ['Verify', 'Claim set and terms locked for the brand. Channels and placements approved for the partner.'],
-        ['Go live', 'Verified partners only, on approved channels, after a tracking test passes.'],
-        ['Get paid', 'Payouts on approved performance. Reversals with a reason. Same numbers on both sides.'],
+        ['Revenue review', 'We map where money leaks across your funnel, checkout, payments, and retention.'],
+        ['Execution', 'Traffic, CRO, checkout, and optimization go live.'],
+        ['Integration', 'WowLoop and ZYVO plug into your stack.'],
+        ['Expansion', 'Revenue share and a deeper partnership as results compound.'],
       ].map(([t, d], i) => (
         <div class="reveal"><span class="step-circle">{i + 1}</span><h3 class="mt-4 text-xl font-bold">{t}</h3><p class="mt-2 text-[15px] text-slate leading-relaxed max-w-xs mx-auto">{d}</p></div>
       ))}
+    </div>
+    <p class="outcome-pill mt-10">Billing scales with outcomes.</p>
+  </section>
+
+  <!-- WHO WE WORK WITH -->
+  <section class="container-x pt-20 md:pt-28">
+    <div class="rounded-[28px] bg-paper p-8 md:p-12 grid lg:grid-cols-[0.9fr_1.1fr] gap-10 items-start">
+      <div>
+        <p class="kicker">Who we work with</p>
+        <h2 class="h2 mt-3">Built for growth‑stage, cash‑pay operators.</h2>
+        <ul class="checks mt-7">
+          <li>$10M to $150M in annual revenue</li>
+          <li>Subscription or membership model</li>
+          <li>Meaningful acquisition spend</li>
+          <li>Ready to integrate systems and move fast</li>
+        </ul>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-5">
+        {verticals.map(([name, icon]) => (
+          <div class="flex flex-col items-center gap-3 reveal">
+            <span class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={icon} /></span>
+            <span class="text-[15px] font-semibold text-navy leading-tight text-center">{name}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- PARTNERS + COMPLIANCE -->
+  <section class="container-x pt-20 md:pt-28">
+    <div class="grid lg:grid-cols-2 gap-5">
+      <div class="panel-navy reveal">
+        <p class="jtag" style="color:#60d8c8">For media partners</p>
+        <h3 class="text-2xl font-extrabold text-white mt-2">Run exclusive telehealth offers from operators with capital behind them.</h3>
+        <p class="text-white/75 mt-4 leading-relaxed">Verified partners, clear claim rules, reliable tracking, and payouts on approved performance.</p>
+        <a href={href('/partners/')} class="btn btn-teal mt-8">How it works for partners</a>
+      </div>
+      <div class="panel-mint reveal">
+        <p class="jtag">Compliance, built in</p>
+        <h3 class="text-2xl font-extrabold mt-2">Healthcare-grade from day one.</h3>
+        <p class="text-slate mt-4 leading-relaxed">Patient data stays with you and your providers. Claims stay yours. Partners are verified and ads are reviewed before they run.</p>
+        <a href={href('/compliance/')} class="btn btn-primary mt-8">How compliance works</a>
+      </div>
     </div>
   </section>
 
   <!-- FAQ -->
   <section class="container-x pt-20 md:pt-28">
     <div class="grid lg:grid-cols-[0.8fr_1.2fr] gap-10">
-      <div><h2 class="h2">Questions, answered.</h2><p class="lead mt-4">Short answers. Longer ones live on the brand and partner pages.</p></div>
+      <div><h2 class="h2">Questions, answered.</h2><p class="lead mt-4">Short answers. The platform and operator pages go deeper.</p></div>
       <FAQ items={faq} />
     </div>
   </section>
 
-  <!-- TALK TO US (bottom) -->
+  <!-- CONTACT -->
   <section id="contact" class="container-x pt-20 md:pt-28 pb-6 scroll-mt-24">
     <div class="grid lg:grid-cols-[0.9fr_1.1fr] gap-10 items-start">
       <div>
-        <p class="kicker">Talk to us</p>
-        <h2 class="h2 mt-3">Ready for the next level? Let’s talk.</h2>
-        <p class="lead mt-4">Brands with a program that converts, and partners with verified traffic. A real person replies within one business day. Free, 30 minutes.</p>
+        <p class="kicker">Book a revenue review</p>
+        <h2 class="h2 mt-3">Find the leaks in your revenue system.</h2>
+        <p class="lead mt-4">Thirty minutes with a founder. We look at your funnel, checkout, payments, and retention, and show you where the money is going.</p>
       </div>
       <div class="rounded-[24px] border border-line p-6 md:p-8"><ContactForm bare /></div>
     </div>
