@@ -2,10 +2,11 @@
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import CTASimple from '../components/CTASimple.astro';
+import { href } from '../lib/site';
 const team = [
-  ['BC', 'Bruce Cran', 'Co-Founder & CEO', 'Technology and payments architect with 30+ years across ecommerce, payments, and performance marketing. CEO of WowPay, a PCI Level 1 platform with $1B+ in payment volume, and founder of WowSuite AI, the engine behind WowLoop.'],
-  ['JR', 'Jordan Rolband', 'Co-Founder', 'Co-founded and scaled DFO Performance into one of the largest privately held affiliate networks, with $5B+ in consumer revenue. Deep expertise in acquisition, affiliate relationships, and attribution.'],
-  ['DL', 'David Laniado', 'Chief Growth Officer', 'Leads commercial growth, operator partnerships, and client expansion. Runs media buying and creative on live telehealth accounts every day.'],
+  ['bruce-cran', 'Bruce Cran', 'Co-Founder & CEO', 'Technology and payments architect with 30+ years across ecommerce, payments, and performance marketing. CEO of WowPay, a PCI Level 1 platform with $1B+ in payment volume, and founder of WowSuite AI, the engine behind WowLoop.'],
+  ['jordan-rolband', 'Jordan Rolband', 'Co-Founder', 'Co-founded and scaled DFO Performance into one of the largest privately held affiliate networks, with $5B+ in consumer revenue. Deep expertise in acquisition, affiliate relationships, and attribution.'],
+  ['david-laniado', 'David Laniado', 'Chief Growth Officer', 'Leads commercial growth, operator partnerships, and client expansion. Runs media buying and creative on live telehealth accounts every day.'],
 ];
 ---
 <Base title="About" description="OnPoint is the revenue infrastructure layer for modern telehealth, built by operators behind billions in consumer revenue and payment volume.">
@@ -15,7 +16,7 @@ const team = [
     <div class="stat-band reveal">
       <p class="stat-title">The experience behind OnPoint</p>
       <div class="stat-grid">
-        {[['$5B+', 'in consumer revenue at DFO Performance'], ['$1B+', 'in payment volume on WowPay'], ['30+', 'years in ecommerce, payments, and performance'], ['$1M+', 'of founder capital invested']].map(([n, l]) => (
+        {[['$5B+', 'in consumer revenue at DFO Performance'], ['$1B+', 'in payment volume on WowPay'], ['30+', 'years in ecommerce, payments, and performance'], ['5', 'revenue levers run as one system']].map(([n, l]) => (
           <div><p class="stat-n">{n}</p><p class="stat-l">{l}</p></div>
         ))}
       </div>
@@ -38,12 +39,11 @@ const team = [
 
   <section class="container-x pt-20 md:pt-28">
     <p class="kicker text-center">The team</p>
-    <h2 class="h2 mt-3 text-center">Founders who are all in.</h2>
-    <p class="lead mx-auto mt-4 text-center">Full time, with their own capital invested.</p>
+    <h2 class="h2 mt-3 text-center">The founders.</h2>
     <div class="mt-10 grid md:grid-cols-3 gap-5">
       {team.map(([i, n, r, d]) => (
         <div class="team-card reveal">
-          <span class="team-avatar">{i}</span>
+          <img src={href(`/img/team/${i}.webp`)} alt={`${n}, ${r}`} class="team-photo" width="200" height="200" loading="lazy" />
           <h3 class="text-xl font-extrabold mt-5">{n}</h3>
           <p class="team-role mt-1">{r}</p>
           <p class="mt-3 text-[15px] text-slate leading-relaxed">{d}</p>

@@ -74,3 +74,4 @@ html.js .proof.in .bar { transform: scaleX(1); }
 .team-avatar { width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; background: var(--color-navy); color: var(--color-teal); font-family: var(--font-display); font-weight: 800; font-size: 22px; }
 .team-role { font-size: 14px; font-weight: 700; color: var(--color-teal-ink); }
 .panel-navy h2, .panel-navy h3, .stage.is-key h3, .eco.is-navy h3, .dark-tile h3 { color: #fff; }
+.team-photo { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; border: 3px solid #fff; box-shadow: 0 0 0 2px var(--color-teal-line), 0 12px 24px -12px rgba(24,40,88,.4); }
