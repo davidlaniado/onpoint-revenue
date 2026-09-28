@@ -1,0 +1,59 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CTASimple from '../components/CTASimple.astro';
+import { href } from '../lib/site';
+const offer = [
+  ['Media buying', 'Meta, TikTok, search, native, email, and SMS. Run by buyers who spend every day in the accounts.'],
+  ['Creative engine', 'UGC, AI video, statics, and long-form advertorials. Hundreds of ads a week, tested and killed fast.'],
+  ['Funnel and CRO', 'Quiz flows, pre-sell pages, checkout, and offer structure, optimized on real cost-per-sale data.'],
+  ['Tracking and attribution', 'Real-time tracking through Everflow and Google Tag Manager, wired end to end, one number for both sides.'],
+  ['Compliance arm', 'Claim sets, creative review before launch, partner verification, and removal when quality drops.'],
+  ['Payments and providers', 'Payment processing solutions, card tracking and reconciliation, and a working knowledge of provider and pharmacy networks.'],
+];
+---
+<Base title="About" description="OnPoint is a compliance-first performance network for telehealth brands, built by operators who have driven billions in sales.">
+  <PageHero kicker="About OnPoint" title="Built by the operators behind <span class='text-teal-ink'>$9B+ in sales.</span>" lead="OnPoint is the network the operators wished existed when they were scaling brands themselves: verified partners, a compliance arm that actually reviews, and tracking both sides can trust." narrow />
+
+  <section class="container-x -mt-8 md:-mt-10 relative z-10">
+    <div class="stat-band reveal">
+      <p class="stat-title">The scale behind the network</p>
+      <div class="stat-grid">
+        {[['$9B+', 'in sales driven by our operators'], ['40+', 'specialists across media, creative, compliance, and tech'], ['10', 'regulated health categories live'], ['$100M+', 'the revenue level we build brands toward']].map(([n, l]) => (
+          <div><p class="stat-n">{n}</p><p class="stat-l">{l}</p></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="container-x pt-16 md:pt-24 text-center">
+    <p class="text-sm font-semibold text-mist">Brands we work with have been featured in</p>
+    <div class="press mt-5"><span>Forbes</span><span class="sans">Inc.</span><span class="sans">BUSINESS INSIDER</span><span>Men's Health</span><span class="sans">TechCrunch</span><span>Fast Company</span></div>
+  </section>
+
+  <section class="container-x pt-20 md:pt-28">
+    <div class="grid lg:grid-cols-[1fr_1fr] gap-10 items-start">
+      <div>
+        <p class="kicker">Who we are</p>
+        <h2 class="h2 mt-3">Operators who scaled the brands, then built the network.</h2>
+      </div>
+      <div class="prose-op">
+        <p>Before OnPoint, our team built and ran one of the largest performance marketing operations in the world: hundreds of people across seven global offices, driving more than $9 billion in sales for the brands they scaled. Telehealth is where that playbook goes next.</p>
+        <p>We still run our own telehealth campaigns every day. When we tell a partner what converts, or tell a brand where its funnel is leaking, it comes from live accounts, not a slide deck.</p>
+        <p>The brands we work with do tens of millions to hundreds of millions a year. They come to us when the program already converts and the question is how to scale it with partners they can trust.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-x pt-20 md:pt-28">
+    <p class="kicker text-center">What we bring</p>
+    <h2 class="h2 mt-3 text-center">Everything between the offer and the sale.</h2>
+    <div class="mt-10 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+      {offer.map(([t, d]) => (
+        <div class="rounded-[24px] bg-paper p-7 reveal"><h3 class="text-lg font-bold">{t}</h3><p class="mt-2 text-[15px] text-slate leading-relaxed">{d}</p></div>
+      ))}
+    </div>
+  </section>
+
+  <CTASimple title="Ready for the next level? Let’s talk." lead="One call. We tell you honestly whether your program fits the network, and what it would take to scale it." />
+</Base>

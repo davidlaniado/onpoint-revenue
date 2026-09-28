@@ -1,0 +1,56 @@
+---
+import { SITE, NAV, href } from '../lib/site';
+const year = new Date().getFullYear();
+---
+<footer class="border-t border-line bg-paper mt-24 overflow-hidden">
+  <div class="container-x py-12 md:py-16 grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+    <div class="reveal">
+      <img src={href('/img/logo.png')} srcset={`${href('/img/logo-2x.png')} 2x`} alt="OnPoint Health Media & Tech" class="h-8 w-auto" width="720" height="195" loading="lazy" />
+      <p class="mt-4 text-[14px] text-slate max-w-sm leading-relaxed">The growth platform for telehealth brands that are ready to scale. Exclusive partnerships, verified partners, compliance built in.</p>
+    </div>
+    <div class="reveal">
+      <p class="mono-label mb-3">Company</p>
+      <ul class="space-y-2 text-[15px] text-navy">
+        {NAV.map((n) => <li><a class="footer-link" href={href(n.path)}>{n.label}</a></li>)}
+        <li><a class="footer-link" href={href('/contact/')}>Contact</a></li>
+      </ul>
+    </div>
+    <div class="reveal">
+      <p class="mono-label mb-3">Get started</p>
+      <ul class="space-y-2 text-[15px] text-navy">
+        <li><a class="footer-link" href={href('/contact/?as=brand')}>Apply as a brand</a></li>
+        <li><a class="footer-link" href={href('/contact/?as=partner')}>Apply as a partner</a></li>
+        <li><a class="footer-link" href={href('/careers/')}>Open roles</a></li>
+        <li><a class="footer-link" href={href('/glossary/')}>Glossary</a></li>
+        <li><a class="footer-link" href={SITE.linkedin} rel="noopener" target="_blank">LinkedIn</a></li>
+      </ul>
+    </div>
+    <div class="reveal">
+      <p class="mono-label mb-3">Legal</p>
+      <ul class="space-y-2 text-[15px] text-navy">
+        <li><a class="footer-link" href={href('/terms/')}>Terms of Use</a></li>
+        <li><a class="footer-link" href={href('/privacy/')}>Privacy Policy</a></li>
+        <li><a class="footer-link" href={`mailto:${SITE.legalEmail}`}>{SITE.legalEmail}</a></li>
+        <li><a class="footer-link" href={href('/sitemap/')}>Sitemap</a></li>
+        <li><a class="footer-link" href={href('/llms.txt')}>llms.txt</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-line">
+    <div class="container-x py-5 flex flex-col md:flex-row gap-2 md:items-center md:justify-between text-xs text-mist">
+      <p>© {year} {SITE.legalName} All rights reserved.</p>
+      <p>OnPoint is a marketing platform, not a medical provider. We do not provide medical advice, diagnosis, or treatment.</p>
+    </div>
+  </div>
+</footer>
+<script>
+  // Safety net: if the page lands at the bottom (reload with scroll restoration, End key, anchor jump),
+  // the scroll-driven reveal can be skipped. Make sure the footer columns always show.
+  const cols = document.querySelectorAll('footer .reveal');
+  if (cols.length) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px 10% 0px' });
+    cols.forEach((c) => io.observe(c));
+  }
+</script>

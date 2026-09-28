@@ -1,0 +1,32 @@
+---
+import Base from '../../layouts/Base.astro';
+import CTASimple from '../../components/CTASimple.astro';
+import PageHero from '../../components/PageHero.astro';
+import { getCollection } from 'astro:content';
+import { href } from '../../lib/site';
+const all = (await getCollection('programs')).sort((a, b) => a.data.order - b.data.order);
+const groups = [
+  ['vertical', 'By health vertical', 'Offers and rules for each regulated health category we run.'],
+  ['channel', 'By traffic channel', 'What we accept, what converts, and what is off limits for each channel.'],
+  ['brand', 'For brands', 'How the network works from the advertiser side.'],
+] as const;
+---
+<Base title="Programs" description="Every OnPoint program in one place: telehealth affiliate programs by health vertical, by traffic channel, and brand-side solutions. Rules, tracking, payouts, and FAQs.">
+  <PageHero kicker="Programs" title="Every program, <span class='text-teal-ink'>one page each.</span>" lead="Pick your vertical or your channel. Each page says what the offer is, who can run it, what the rules are, and how you get paid." narrow />
+  {groups.map(([g, title, lead]) => (
+    <section class="container-x pt-16 md:pt-20">
+      <h2 class="h2 !text-[30px]">{title}</h2>
+      <p class="lead mt-2">{lead}</p>
+      <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {all.filter((p) => p.data.group === g).map((p) => (
+          <a href={href(`/programs/${p.id}/`)} class="rounded-[20px] border border-line p-6 block hover:border-teal transition-colors reveal">
+            <h3 class="text-lg font-bold leading-snug">{p.data.title}</h3>
+            <p class="mt-2 text-sm text-slate leading-relaxed">{p.data.description}</p>
+            <p class="mt-4 text-sm font-semibold text-teal-ink">Read</p>
+          </a>
+        ))}
+      </div>
+    </section>
+  ))}
+  <CTASimple />
+</Base>

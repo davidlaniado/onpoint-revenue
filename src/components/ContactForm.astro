@@ -1,0 +1,94 @@
+---
+import { SITE } from '../lib/site';
+// Static-site form: FormSubmit relays to SITE.email. First submission triggers a one-time
+// activation email to that inbox. Swap the action for any other form endpoint later.
+const action = `https://formsubmit.co/ajax/${SITE.email}`;
+interface Props { bare?: boolean }
+const { bare = false } = Astro.props;
+---
+<form id="contact-form" action={action} method="POST" class:list={[bare ? 'relative' : 'card p-6 md:p-8 relative']} novalidate>
+  <div class="form-fields grid gap-4">
+    <input type="hidden" name="_subject" value="New inquiry from onpointhealthmedia.com" />
+    <input type="hidden" name="_template" value="table" />
+    <input type="hidden" name="_captcha" value="false" />
+    <input type="text" name="_honey" class="hidden" tabindex="-1" autocomplete="off" />
+    <div class="grid sm:grid-cols-2 gap-4">
+      <label class="field"><span class="field-label">First name</span>
+        <input required name="first_name" autocomplete="given-name" class="field-input" />
+      </label>
+      <label class="field"><span class="field-label">Last name</span>
+        <input required name="last_name" autocomplete="family-name" class="field-input" />
+      </label>
+    </div>
+    <label class="field"><span class="field-label">Work email</span>
+      <input required type="email" name="email" autocomplete="email" class="field-input" />
+    </label>
+    <div class="grid sm:grid-cols-2 gap-4">
+      <label class="field"><span class="field-label">I am a</span>
+        <select name="i_am" id="i-am" class="field-input">
+          <option value="Brand / advertiser">Brand / advertiser</option>
+          <option value="Media partner / affiliate">Media partner / affiliate</option>
+            <option value="Other">Other</option>
+        </select>
+      </label>
+      <label class="field"><span class="field-label">Company or website</span>
+        <input name="company" class="field-input" />
+      </label>
+    </div>
+    <label class="field"><span class="field-label">What are you trying to grow?</span>
+      <textarea required name="message" rows="5" class="field-input"></textarea>
+    </label>
+    <button type="submit" class="btn btn-primary form-submit mt-2 w-full sm:w-auto">
+      <span class="label">Send message <span aria-hidden="true">→</span></span>
+      <span class="loader" aria-hidden="true"><i></i><i></i><i></i></span>
+    </button>
+    <p id="form-status" class="form-status text-sm text-slate" aria-live="polite"></p>
+    <p class="text-xs text-mist">Prefer email? <a class="underline" href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
+  </div>
+  <div class="form-success hidden text-center py-6" aria-live="polite">
+    <svg class="mx-auto" width="84" height="84" viewBox="0 0 84 84" fill="none" aria-hidden="true">
+      <circle class="check-bg" cx="42" cy="42" r="26" fill="transparent" />
+      <circle class="check-ring" cx="42" cy="42" r="26.5" stroke="#60d8c8" stroke-width="2" stroke-linecap="round" />
+      <path class="check-mark" d="M30 43.5l8 8 16-17" stroke="#14867a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+    <p class="mono-label mt-5">Message sent</p>
+    <h3 class="mt-2 text-2xl font-extrabold">Thanks. A real person will reply.</h3>
+    <p class="mt-2 text-slate max-w-sm mx-auto">Usually within one to two business days. If it is urgent, email <a class="underline text-navy" href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
+    <button type="button" class="btn btn-ghost mt-6 form-reset">Send another</button>
+  </div>
+</form>
+<script>
+  const f = document.getElementById('contact-form') as HTMLFormElement | null;
+  const status = document.getElementById('form-status');
+  const sel = document.getElementById('i-am') as HTMLSelectElement | null;
+  const as = new URLSearchParams(location.search).get('as');
+  if (sel && as === 'partner') sel.value = 'Media partner / affiliate';
+
+  const fields = f?.querySelector('.form-fields') as HTMLElement | null;
+  const success = f?.querySelector('.form-success') as HTMLElement | null;
+  const showSuccess = () => {
+    if (!fields || !success) return;
+    fields.classList.add('is-hidden');
+    success.classList.remove('hidden');
+    requestAnimationFrame(() => requestAnimationFrame(() => success.classList.add('is-visible')));
+  };
+  success?.querySelector('.form-reset')?.addEventListener('click', () => {
+    success.classList.remove('is-visible');
+    setTimeout(() => { success.classList.add('hidden'); fields?.classList.remove('is-hidden'); (fields?.querySelector('input:not([type=hidden])') as HTMLElement | null)?.focus(); }, 300);
+  });
+
+  f?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!f.checkValidity()) { f.reportValidity(); return; }
+    const btn = f.querySelector('button[type=submit]') as HTMLButtonElement;
+    btn.classList.add('is-loading'); btn.disabled = true;
+    if (status) { status.textContent = ''; status.classList.remove('is-error'); }
+    try {
+      const r = await fetch(f.action, { method: 'POST', headers: { Accept: 'application/json' }, body: new FormData(f) });
+      if (!r.ok) throw new Error(String(r.status));
+      f.reset(); showSuccess();
+    } catch {
+      if (status) { status.textContent = 'Something went wrong. Email us directly at david@onpointhealthmedia.com.'; status.classList.add('is-error'); }
+    } finally { btn.classList.remove('is-loading'); btn.disabled = false; }
+  });
+</script>

@@ -1,0 +1,83 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import FAQ from '../components/FAQ.astro';
+import CTASimple from '../components/CTASimple.astro';
+import { href } from '../lib/site';
+const faq = [
+  { q: 'Who can join OnPoint as a partner?', a: 'Partners with verified identities, approved traffic sources, and a commitment to advertising standards. If you run clean traffic and want offers that last, you will like it here.' },
+  { q: 'What types of offers are available?', a: 'Vetted telehealth, wellness, and diagnostics offers with clear claim rules, category standards, and defined operating requirements per offer.' },
+  { q: 'Are revenue share offers available?', a: 'Yes, on certain offers. Where available, terms are defined before launch with transparent attribution, payouts, reconciliation, and reporting built for revenue share.' },
+  { q: 'How does tracking and reporting work?', a: 'Full attribution visibility through server-side postbacks and platform-level reporting. You see the same conversion events the brand sees.' },
+  { q: 'How and when are partners paid?', a: 'On approved performance under the terms agreed for each offer. Reporting is transparent, payouts are auditable, and timing follows the agreed commercial structure.' },
+  { q: 'Can I scale here?', a: 'Yes. Partners who follow the rules, maintain quality, and perform consistently get stable infrastructure, transparent data, and long-term offer support.' },
+];
+const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
+---
+<Base title="For Media Partners" description="Premium telehealth, wellness, and diagnostics offers with clear rules, full attribution, and payouts you can audit. Built for partners who run clean traffic." jsonLd={faqLd}>
+  <PageHero kicker="For media partners" title="Exclusive health offers that <span class='text-teal-ink'>pay and stay.</span>" lead="Telehealth offers with clear claim rules, server-side tracking, and payouts you can check. A gated network, so the offer you scale today is still here next quarter." primary={['Apply as a partner', '/contact/?as=partner']} secondary={['See how it works', '#how']} pills={['Claim rules per offer', 'One tracking link, S2S postbacks', 'Reversals explained']} />
+
+  <section class="container-x pt-20 md:pt-28">
+    <p class="kicker">What you get</p>
+    <h2 class="h2 mt-3 max-w-3xl">Offers worth building on.</h2>
+    <div class="mt-10 grid md:grid-cols-2 gap-5">
+      <div class="panel-navy reveal">
+        <h3 class="text-2xl font-extrabold text-white">On every offer</h3>
+        <ul class="checks checks-light mt-6">
+          <li>A brand that has cleared business and compliance verification. No mystery advertisers.</li>
+          <li>The approved claim set and the off-limits list, before you build a single creative.</li>
+          <li>Approved landing pages, and pre-sell pages where the offer supports them.</li>
+          <li>Server-side postbacks on the charged order, funnel events in reporting, and sub IDs down to the ad.</li>
+        </ul>
+      </div>
+      <div class="panel-mint reveal">
+        <h3 class="text-2xl font-extrabold">How you get paid</h3>
+        <ul class="checks mt-6">
+          <li>On approved performance, under terms agreed before launch. CPA, revenue share, or hybrid by offer.</li>
+          <li>Reversals shown with a reason: refund, chargeback, duplicate, or fraud.</li>
+          <li>The same conversion log the brand sees, so both sides work from one number.</li>
+          <li>Caps that grow as quality holds, and a partner team that buys media itself.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="how" class="container-x pt-20 md:pt-28 text-center scroll-mt-24">
+    <h2 class="h2">Live in four steps.</h2>
+    <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-6">
+      {[
+        ['Apply', 'Identity, KYC, and traffic source verification.'],
+        ['Get approved', 'Channels and placements approved for quality and compliance.'],
+        ['Go live', 'Tracking links, the claim set, and a test conversion confirmed before spend.'],
+        ['Scale', 'Optimization guidance, transparent reporting, and payouts on approved performance.'],
+      ].map(([t, d], i) => (
+        <div class="reveal"><span class="step-circle">{i + 1}</span><h3 class="mt-4 text-xl font-bold">{t}</h3><p class="mt-2 text-[15px] text-slate leading-relaxed max-w-xs mx-auto">{d}</p></div>
+      ))}
+    </div>
+  </section>
+
+  <section class="container-x pt-20 md:pt-28">
+    <h2 class="h2 text-center">Is OnPoint right for you?</h2>
+    <div class="mt-10 grid md:grid-cols-2 gap-5 max-w-4xl mx-auto">
+      <div class="panel-mint reveal"><h3 class="text-xl font-extrabold">Good fit</h3><ul class="checks mt-5">
+        <li>You buy on Meta, search, native, email, or SMS and can show where the traffic comes from.</li>
+        <li>You want offers with stable payouts, not a cap that disappears next week.</li>
+        <li>You are fine with claim rules because you would rather scale for a year than burn out in a month.</li>
+      </ul></div>
+      <div class="rounded-[28px] border border-line p-8 md:p-11 reveal"><h3 class="text-xl font-extrabold">What we ask</h3><ul class="checks mt-5">
+        <li>Traffic from your own accounts and sources, disclosed up front.</li>
+        <li>Creative built inside the brand’s approved claim set.</li>
+        <li>A partner mindset: scale for a year, then another.</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section class="container-x pt-20 md:pt-28">
+    <div class="grid lg:grid-cols-[0.8fr_1.2fr] gap-10">
+      <div><h2 class="h2">Questions partners ask first.</h2><p class="lead mt-4">Straight answers. The longer versions are on the program pages.</p></div>
+      <FAQ items={faq} />
+    </div>
+  </section>
+
+  <CTASimple title="Run offers that last." lead="Tell us what you buy, where it comes from, and what you are looking for. We will reply with what we have." primary={['Apply as a partner', '/contact/?as=partner']} secondary={undefined} />
+</Base>
